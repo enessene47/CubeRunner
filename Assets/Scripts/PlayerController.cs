@@ -32,9 +32,11 @@ public class PlayerController : SwipeMecLast
 
         anim = GetComponent<Animator>();
 
-        state = State.Play;
+        EventManager.instance.startEvent += () => state = State.Play;
 
-        animState = AnimState.Idle;
+        EventManager.instance.failEvent += () => state = State.End;
+
+        EventManager.instance.successEvent += () => state = State.End;
     }
 
     void Update()
