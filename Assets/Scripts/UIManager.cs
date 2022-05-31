@@ -17,10 +17,26 @@ public class UIManager : MonoBehaviour
 
     #endregion
 
-    [SerializeField] GameObject mainCanvas;
+    [SerializeField] GameObject startCanvas;
+
+    [SerializeField] TextMeshProUGUI startLevelText;
+
+    [SerializeField] TextMeshProUGUI scoreText;
 
     private void Start()
     {
-        EventManager.instance.startEvent += () => mainCanvas.SetActive(false);
+        SetStartLevelText();
+
+        UpdateScoreText();
+
+        EventManager.instance.startEvent += () => startCanvas.SetActive(false);
+
+        EventManager.instance.successEvent += () => IncreaseLevelText();
     }
+
+    private void SetStartLevelText() => startLevelText.text = "Level " + PlayerPrefs.GetInt("Level", 1);
+
+    private void UpdateScoreText(int score = 0) => scoreText.text = (PlayerPrefs.GetInt("Score", 0) + score).ToString();
+
+    private void IncreaseLevelText() => PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
 }
