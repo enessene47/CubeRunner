@@ -28,7 +28,7 @@ public class PlayerController : SwipeMecLast
 
         collectCube.Add(CubeCreateManager.instance.CreateCube(transform));
 
-        TransformAdjustment();
+        FirstAdjustment();
 
         anim = GetComponent<Animator>();
 
@@ -65,7 +65,15 @@ public class PlayerController : SwipeMecLast
         for (int i = 0; i < count; i++)
             collectCube[i].MyDOLocalMove(new Vector3(0, (count - i) * .5f, 0));
 
-        character.MyDOLocalMove(new Vector3(0, count * .5f + .5f, 0), act: () => character.MyDOLocalJump(character.localPosition));
+        character.MyDOLocalMove(new Vector3(0, count * .5f + .5f, 0), act: () => character.MyDOLocalJump(character.localPosition,
+            Random.Range(.5f, .8f)));
+    }
+
+    private void FirstAdjustment()
+    {
+        collectCube[0].position = Vector3.up * .5f;
+
+        character.position = Vector3.up;
     }
 
     private void OnTriggerEnter(Collider other)
