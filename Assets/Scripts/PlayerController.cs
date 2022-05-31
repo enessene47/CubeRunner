@@ -30,7 +30,12 @@ public class PlayerController : SwipeMecLast
 
         FirstAdjustment();
 
-        EventManager.instance.startEvent += () => state = State.Play;
+        EventManager.instance.startEvent += () =>
+        {
+            state = State.Play;
+
+            StartCoroutine(PowerProcess());
+        };
 
         EventManager.instance.failEvent += () =>
         {
@@ -162,5 +167,28 @@ public class PlayerController : SwipeMecLast
         }
 
         AllCubeJump(.7f);
+    }
+
+    IEnumerator PowerProcess()
+    {
+        float x = 0f;
+
+        while(state == State.Play)
+        {
+            x += .01f;
+
+            UIManager.instance.PowerProcessUpdate(x);
+
+            yield return new WaitForSeconds(.01f);
+        }
+    }
+
+    public IEnumerator Power()
+    {
+        forwardSpeed *= 2;
+
+        yield return new WaitForSeconds(5);
+
+        forwardSpeed *= .5f;
     }
 }
