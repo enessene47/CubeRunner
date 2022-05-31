@@ -1,18 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        
+        EventManager.instance.nextEvent += () => NextLevel();
+
+        EventManager.instance.retryEvent += () => RetryLevel();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void NextLevel()
     {
-        
+        int sceneNumber = PlayerPrefs.GetInt("Scene", 0);
+
+        sceneNumber++;
+
+        if (sceneNumber >= SceneManager.sceneCountInBuildSettings)
+            sceneNumber = 0;
+
+        PlayerPrefs.SetInt("Scene", sceneNumber);
+
+        SceneManager.LoadScene(sceneNumber);
     }
+
+    private void RetryLevel() => SceneManager.LoadScene(PlayerPrefs.GetInt("Scene", 0));
 }

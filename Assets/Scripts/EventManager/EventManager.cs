@@ -15,16 +15,24 @@ public class EventManager : MonoBehaviour
     #endregion
 
     public delegate void StartHandler();
-    public delegate void RetryHandler();
+    public delegate void FailHandler();
+    public delegate void SuccessHandler();
+
     public delegate void NextHandler();
+    public delegate void RetryHandler();
 
     public event StartHandler startEvent;
-    public event RetryHandler failEvent;
-    public event NextHandler successEvent;
+    public event FailHandler failEvent;
+    public event SuccessHandler successEvent;
+
+    public event NextHandler nextEvent;
+    public event RetryHandler retryEvent;
 
     #region EventAwakes
     public void AwakeStartEvent() => startEvent();
     public void AwakeFailEvent() => failEvent();
     public void AwakeSuccessEvent() => successEvent();
+    public void AwakeNextEvent() => nextEvent();
+    public void AwakeRetryEvent() => retryEvent();
     #endregion
 }

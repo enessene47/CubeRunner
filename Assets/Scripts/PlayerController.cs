@@ -9,7 +9,7 @@ public class PlayerController : SwipeMecLast
 
     [SerializeField] float forwardSpeed;
 
-    Animator anim;
+    [SerializeField] Animator anim;
 
     List<Transform> collectCube;
 
@@ -26,17 +26,29 @@ public class PlayerController : SwipeMecLast
 
         collectCube = new List<Transform>();
 
-        collectCube.Add(CubeCreateManager.instance.CreateCube(transform));
+        collectCube.Add(CubeCreateManager.instance.CreateCollectableCube(transform));
 
         FirstAdjustment();
 
-        anim = GetComponent<Animator>();
-
         EventManager.instance.startEvent += () => state = State.Play;
 
-        EventManager.instance.failEvent += () => state = State.End;
+        EventManager.instance.failEvent += () =>
+        {
+            state = State.End;
 
-        EventManager.instance.successEvent += () => state = State.End;
+            animState = AnimState.Sad;
+
+            AnimationState();
+        };
+
+        EventManager.instance.successEvent += () =>
+        {
+            state = State.End;
+
+            animState = AnimState.Happy;
+
+            AnimationState();
+        };
     }
 
     void Update()
@@ -65,10 +77,27 @@ public class PlayerController : SwipeMecLast
         int count = collectCube.Count;
 
         for (int i = 0; i < count; i++)
-            collectCube[i].MyDOLocalMove(new Vector3(0, (count - i) * .5f, 0));
+            collectCube[i].MyDOLocalMove(new Vector3(0, (count - i - 1) + .5f, 0));
 
-        character.MyDOLocalMove(new Vector3(0, count * .5f + .5f, 0), act: () => character.MyDOLocalJump(character.localPosition,
+        character.MyDOLocalMove(new Vector3(0, count, 0), act: () => character.MyDOLocalJump(character.localPosition,
             Random.Range(.5f, .8f)));
+    }
+
+    public void AllCubeJump()
+    {
+        int count = collectCube.Count;
+
+        for (int i = 0; i < count; i++)
+            collectCube[i].MyDOLocalMove(new Vector3(0, (count - i - 1) + .5f, 0));
+
+        character.MyDOLocalMove(new Vector3(0, count, 0), act: () =>
+        {
+            for (int i = 0; i < count; i++)
+                collectCube[i].MyDOLocalJump(collectCube[i].localPosition, jumpPower: (count - i) * .8f, time: .25f);
+
+            character.MyDOLocalJump(character.localPosition,jumpPower: (count + 1) * .8f ,time: .25f
+        );
+    });
     }
 
     private void FirstAdjustment()
@@ -90,5 +119,32 @@ public class PlayerController : SwipeMecLast
 
             TransformAdjustment();
         }    
+        else if(other.CompareTag("LevelEnd"))
+        {
+            other.enabled = false;
+
+            EventManager.instance.AwakeSuccessEvent();
+        }
+    }
+
+    public void ObstacleInteraction(int obsSize)
+    {
+        int collectCount = collectCube.Count;
+
+        if (obsSize >= collectCount)
+        {
+            EventManager.instance.AwakeFailEvent();
+
+            return;
+        }
+
+        for(int i = collectCount - 1; i >= collectCount - obsSize; i--)
+        {
+            var trs = collectCube[i];
+
+            trs.parent = null;
+
+            collectCube.Remove(trs);
+        }
     }
 }

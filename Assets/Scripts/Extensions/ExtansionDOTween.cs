@@ -9,6 +9,6 @@ public static class ExtansionDOTween
     public static void MyDOLocalMove(this Transform trs, Vector3 pos, float time = .15f, Action act = null) => 
         trs.DOLocalMove(pos, time).SetEase(Ease.Linear).OnComplete(() => act());
 
-    public static void MyDOLocalJump(this Transform trs, Vector3 pos, float jumpPover = .8f, int numJumps = 1, float time = .2f) => 
-        trs.DOLocalJump(pos, jumpPover, numJumps, time).SetEase(Ease.Linear);
+    public static void MyDOLocalJump(this Transform trs, Vector3 pos, float jumpPower = .8f, int numJumps = 1, float time = .2f) => 
+        trs.DOLocalJump(pos, jumpPower, numJumps, time).SetEase(Ease.Linear);
 }

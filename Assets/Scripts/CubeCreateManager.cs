@@ -15,7 +15,9 @@ public class CubeCreateManager : MonoBehaviour
 
     #endregion
 
-    [SerializeField] GameObject cube;
+    [SerializeField] GameObject cubeCollectable;
+    [SerializeField] GameObject cubeObstacle;
 
-    public Transform CreateCube(Transform parentRef = null) => Instantiate(cube, parent: parentRef).transform;
+    public Transform CreateCollectableCube(Transform parentRef = null) => Instantiate(cubeCollectable, parent: parentRef).transform;
+    public Transform CreateObstacleCube(Transform parentRef = null) => Instantiate(cubeObstacle, parent: parentRef).transform;
 }
