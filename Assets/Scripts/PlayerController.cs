@@ -85,7 +85,7 @@ public class PlayerController : SwipeMecLast
             Random.Range(.5f, .8f)));
     }
 
-    public void AllCubeJump()
+    public void AllCubeJump(float time = .45f)
     {
         int count = collectCube.Count;
 
@@ -95,9 +95,9 @@ public class PlayerController : SwipeMecLast
         character.MyDOLocalMove(new Vector3(0, count, 0), act: () =>
         {
             for (int i = 0; i < count; i++)
-                collectCube[i].MyDOLocalJump(collectCube[i].localPosition, jumpPower: (count - i) * .8f, time: .25f);
+                collectCube[i].MyDOLocalJump(collectCube[i].localPosition, jumpPower: (count - i) * .8f, time: time);
 
-            character.MyDOLocalJump(character.localPosition,jumpPower: (count + 1) * .8f ,time: .25f
+            character.MyDOLocalJump(character.localPosition,jumpPower: (count + 1) * .8f ,time: time
         );
     });
     }
@@ -152,11 +152,15 @@ public class PlayerController : SwipeMecLast
 
     private IEnumerator LevelEnd()
     {
-        for (int i = 0; i < collectCube.Count; i++)
+        for (int i = collectCube.Count - 1; i >= 0; i--)
         {
             UIManager.instance.UpdateCoinText(10);
 
+            EffectManager.instance.ActiveStarExplosion(new Vector3(collectCube[i].position.x, collectCube[i].position.y, collectCube[i].position.z - .8f));
+
             yield return new WaitForSeconds(.4f);
         }
+
+        AllCubeJump(.7f);
     }
 }

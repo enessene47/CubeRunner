@@ -136,8 +136,9 @@ GameObject:
   - component: {fileID: 200056492}
   - component: {fileID: 200056495}
   - component: {fileID: 200056496}
+  - component: {fileID: 200056497}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -207,6 +208,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd31e834bbb1e2b489d99c68e97171b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &200056497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 200056491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06142aa33d5bd4449ab6e0d7bfc20a69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  starExplosionEffectPrefab: {fileID: 188560, guid: 9c3b7f4ace8832b40abe6afe89fbcd91, type: 3}
+  starExplosionEffectsCount: 5
 --- !u!1 &236251010
 GameObject:
   m_ObjectHideFlags: 0
@@ -815,7 +830,7 @@ MonoBehaviour:
   obj: {fileID: 647973264}
   desiredPos: {x: 0, y: 0, z: 0}
   character: {fileID: 2095826488747806351}
-  forwardSpeed: 3.5
+  forwardSpeed: 5
   anim: {fileID: 1611743011507180598}
 --- !u!65 &647973266
 BoxCollider:
@@ -1857,7 +1872,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3147430991595715386, guid: 88c09c1eac10e9c4f877ca46296cb153, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.93
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3147430991595715386, guid: 88c09c1eac10e9c4f877ca46296cb153, type: 3}
       propertyPath: m_LocalRotation.w
