@@ -23,13 +23,13 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI mainLevelText;
 
-    [SerializeField] TextMeshProUGUI scoreText;
+    [SerializeField] TextMeshProUGUI coinText;
 
     private void Start()
     {
         SetStartLevelText();
 
-        UpdateScoreText();
+        UpdateCoinText();
 
         EventManager.instance.startEvent += () => startButton.SetActive(false);
 
@@ -42,7 +42,14 @@ public class UIManager : MonoBehaviour
 
     private void SetStartLevelText() => mainLevelText.text = "Level " + PlayerPrefs.GetInt("Level", 1);
 
-    private void UpdateScoreText(int score = 0) => scoreText.text = (PlayerPrefs.GetInt("Score", 0) + score).ToString();
+    public void UpdateCoinText(int score = 0)
+    {
+        int coin = PlayerPrefs.GetInt("Coin", 0) + score;
+
+        PlayerPrefs.SetInt("Coin", coin);
+
+        coinText.text = coin.ToString();
+    }
 
     private void IncreaseLevelText() => PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
 }

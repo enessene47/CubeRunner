@@ -48,6 +48,8 @@ public class PlayerController : SwipeMecLast
             animState = AnimState.Happy;
 
             AnimationState();
+
+            StartCoroutine(LevelEnd());
         };
     }
 
@@ -145,6 +147,16 @@ public class PlayerController : SwipeMecLast
             trs.parent = null;
 
             collectCube.Remove(trs);
+        }
+    }
+
+    private IEnumerator LevelEnd()
+    {
+        for (int i = 0; i < collectCube.Count; i++)
+        {
+            UIManager.instance.UpdateCoinText(10);
+
+            yield return new WaitForSeconds(.4f);
         }
     }
 }

@@ -987,7 +987,7 @@ MonoBehaviour:
   retryButton: {fileID: 619460358}
   nextButton: {fileID: 941559394}
   mainLevelText: {fileID: 541759808}
-  scoreText: {fileID: 1515937070}
+  coinText: {fileID: 1515937070}
 --- !u!1 &781691299
 GameObject:
   m_ObjectHideFlags: 0
@@ -1511,7 +1511,7 @@ GameObject:
   - component: {fileID: 1515937071}
   - component: {fileID: 1515937070}
   m_Layer: 0
-  m_Name: ScoreText
+  m_Name: CoinText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
