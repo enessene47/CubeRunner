@@ -33,7 +33,7 @@ namespace Mechanics
         private float resetTimer;
         [HideInInspector] public Vector3 desiredPos = Vector3.zero;
 
-        public virtual void Start()
+        public void BaseStart()
         {
             if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
             {
@@ -45,16 +45,6 @@ namespace Mechanics
                 isTouchScreen = false;
             }
         }
-
-        public void VariableAdjust(Transform objTocontrol, float lerpMultiplier, float clampMax, float dampValue, bool posActive) // start ta çağır
-        {
-            clampMaxVal = clampMax;
-            lerpMult = lerpMultiplier;
-            posSwipe = posActive;
-            obj = objTocontrol;
-            mouseDamp = dampValue;         
-        }
-
 
         public void Swipe() // her frameda çalışıyor
         {
