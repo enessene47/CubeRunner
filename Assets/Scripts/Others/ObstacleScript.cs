@@ -26,6 +26,9 @@ public class ObstacleScript : MonoBehaviour
             myCubes[i] = trs;
 
             trs.localPosition = new Vector3(0, .5f + i, 0);
+
+            trs.GetComponent<Renderer>().material.color = new Color((1 -.5f) + .5f / (float)(sizeCount - i), 
+                .5f - .5f / (float) (sizeCount - i), .5f - .5f / (float)(sizeCount - i), 1);
         }
     }
 
@@ -47,5 +50,12 @@ public class ObstacleScript : MonoBehaviour
 
             ObjectManager.instance.GetPlayerController.AllCubeJump();
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+
+        Gizmos.DrawSphere(transform.position, 1);
     }
 }

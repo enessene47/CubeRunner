@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PlayerController : SwipeMecLast
 {
+    [SerializeField] Transform cam;
+
     [SerializeField] Transform character;
 
     [SerializeField] float forwardSpeed;
@@ -83,6 +85,8 @@ public class PlayerController : SwipeMecLast
     {
         int count = collectCube.Count;
 
+        cam.MyDOLocalMove(new Vector3(0, 6 + count - 1, -7 - (count - 1) * .5f));
+
         for (int i = 0; i < count; i++)
             collectCube[i].MyDOLocalMove(new Vector3(0, (count - i - 1) + .5f, 0));
 
@@ -136,16 +140,16 @@ public class PlayerController : SwipeMecLast
 
     public void ObstacleInteraction(int obsSize)
     {
-        int collectCount = collectCube.Count;
+        int count = collectCube.Count;
 
-        if (obsSize >= collectCount)
+        if (obsSize >= count)
         {
             EventManager.instance.AwakeFailEvent();
 
             return;
         }
 
-        for(int i = collectCount - 1; i >= collectCount - obsSize; i--)
+        for(int i = count - 1; i >= count - obsSize; i--)
         {
             var trs = collectCube[i];
 
@@ -153,6 +157,10 @@ public class PlayerController : SwipeMecLast
 
             collectCube.Remove(trs);
         }
+
+        count = collectCube.Count;
+
+        cam.MyDOLocalMove(new Vector3(0, 6 + count - 1, -7 - (count - 1) * .5f));
     }
 
     private IEnumerator LevelEnd()

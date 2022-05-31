@@ -39,7 +39,12 @@ public class UIManager : MonoBehaviour
 
         EventManager.instance.failEvent += () => retryButton.SetActive(true);
 
-        EventManager.instance.successEvent += () => nextButton.SetActive(true);
+        EventManager.instance.successEvent += () =>
+        {
+            nextButton.SetActive(true);
+
+            powerProcessButton.interactable = false;
+        };
 
         EventManager.instance.nextEvent += () => IncreaseLevelText();
     }
@@ -55,7 +60,7 @@ public class UIManager : MonoBehaviour
         coinText.text = coin.ToString();
     }
 
-    private void IncreaseLevelText() => PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
+    private void IncreaseLevelText() => PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level", 1) + 1);
 
     public void PowerProcessUpdate(float fillAmount)
     {

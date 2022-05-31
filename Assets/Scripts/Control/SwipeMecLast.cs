@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-
 
 namespace Mechanics
 {
@@ -18,11 +16,10 @@ namespace Mechanics
         #endregion
 
         [Header("Swipe Variables")]
-        public bool posSwipe = true; // if the game only use swipe for position set initial value true ,  //for rotation set initial value false    
-        public float clampMaxVal; // min value will be minus of max. 
-        public float lerpMult = 1;//lerp speed adjuster
-        public float mouseDamp = 600; //if you use rotation method set to 1 (suggested)
-        public Transform obj; // obj to swipe
+        public float clampMaxVal;
+        public float lerpMult = 1;
+        public float mouseDamp = 600;
+        public Transform obj;
 
         [Header("Others")]
         private float startPosX;
@@ -30,44 +27,31 @@ namespace Mechanics
       
         bool isTouchScreen;
 
-        private float resetTimer;
         [HideInInspector] public Vector3 desiredPos = Vector3.zero;
 
         public void BaseStart()
         {
             if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
-            {
-                isTouchScreen = true;
                 Input.multiTouchEnabled = false;
-            }
+
             else
-            {
                 isTouchScreen = false;
-            }
         }
 
-        public void Swipe() // her frameda çalışıyor
+        public void Swipe()
         {
             if (isTouchScreen)
-            {
                 TouchControl();
-            }
             else
-            {
                 MouseControl();
-            }
         }
 
         void MouseControl()
         {
             if (Input.GetMouseButtonDown(0))
-            {
                 ResetValues();
-            }
             else if (Input.GetMouseButton(0))
-            {
                 ControlOnHold();
-            }
         }
 
         void TouchControl()
@@ -86,23 +70,19 @@ namespace Mechanics
 
         void ControlOnHold()
         {
-            deltaMousePos = Input.mousePosition.x - startPosX;// how much mouse dragged
+            deltaMousePos = Input.mousePosition.x - startPosX;
 
-            if (posSwipe)//position swipe
-            {
-                PositionMethod2();
-            }
+            PositionMethod();
         }
 
-        public void ResetValues()
-        {
-            startPosX = Input.mousePosition.x;
-        }
+        public void ResetValues() => startPosX = Input.mousePosition.x;
 
-        void PositionMethod2() // slide
+        void PositionMethod()
         {
             float xPos = obj.position.x;
+
             xPos = Mathf.Lerp(xPos, xPos + (mouseDamp * (deltaMousePos / Screen.width)), Time.deltaTime * lerpMult);
+
             xPos = Mathf.Clamp(xPos, -clampMaxVal, clampMaxVal);
 
             obj.position = new Vector3(xPos, obj.position.y, obj.position.z);
